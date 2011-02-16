@@ -29,7 +29,9 @@ OBJS =  boot/boot.o boot/init.o kernel.o module/loader.o \
 	arch/i386/percpu.o arch/i386/measure.o \
 	vm/vmx.o vm/vm86.o vm/code16.o \
 	sched/task.o sched/sched.o sched/sleep.o sched/vcpu.o sched/ipc.o \
-	mem/physical.o mem/virtual.o mem/pow2.o \
+	mem/physical.o mem/virtual.o mem/pow2.o mem/pow2-used-table.o \
+	SATS/mem/pow2.o \
+	util/linmap_avltree_ngc.o \
 	util/cpuid.o util/printf.o util/screen.o util/debug.o util/circular.o \
 	util/crc32.o util/bitrev.o util/logger.o util/perfmon.o \
 	drivers/ata/ata.o drivers/ata/diskio.o \
@@ -124,6 +126,9 @@ quest: $(OBJS) $(ACPI_OBJS) $(LWIP_OBJS)
 %: %.c
 
 %.o: %.dats
+	$(ATSCC) $(ATSFLAGS) -fno-builtin -m32 -o $@ -c $^
+
+%.o: %.sats
 	$(ATSCC) $(ATSFLAGS) -fno-builtin -m32 -o $@ -c $^
 
 install: $(PROGS)
