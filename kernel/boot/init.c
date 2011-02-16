@@ -20,6 +20,7 @@
 #include "arch/i386-percpu.h"
 #include "util/cpuid.h"
 #include "kernel.h"
+#include "status.h"
 #include "fs/filesys.h"
 #include "smp/smp.h"
 #include "mem/mem.h"
@@ -545,7 +546,7 @@ init (multiboot * pmb)
   smp_secondary_init ();
 
   /* Load all modules, chasing dependencies */
-  { extern bool module_load_all (void); module_load_all (); }
+  { extern status_t module_load_all (void); module_load_all (); }
 
   /* count free pages for informational purposes */
   u32 *page_table = (u32 *) KERN_PGT;
