@@ -25,6 +25,18 @@ typedef s32 status_t;
 #define OK(x) ((x) == 0)
 #define BAD(x) ((x) != 0)
 
+#define RET_IF_FAIL(call)                       \
+  do {                                          \
+    status_t __code_rif = call;                 \
+    if (BAD (__code_rif)) return __code_rif;    \
+  } while (0)
+
+#define GOTO_IF_FAIL(lbl,call)                  \
+  do {                                          \
+    status_t __code_gif = call;                 \
+    if (BAD (__code_gif)) goto lbl;             \
+  } while (0)
+
 #define SOK              0
 #define SUCCESS          0
 #define EPERM            1      /* Operation not permitted */
