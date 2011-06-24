@@ -1,5 +1,6 @@
+% -*- Mode: TeX; TeX-PDF-mode: t -*-
 \documentclass[twocolumn]{article}
-\usepackage{url}
+\usepackage{url,graphicx}
 
 \newcommand\func[1]{{\path {#1}}}
 \newcommand\type[1]{{\path {#1}}}
@@ -10,8 +11,10 @@
 \newcommand\inst[1]{{\tt {#1}}}
 \newcommand\reg[1]{{\tt {\%{#1}}}}
 
+\title{VMX in Quest}
+\author{Matthew Danish}
 \begin{document}
-
+\maketitle
 \section{Introduction}
 The Quest kernel contains limited support for utilizing the primitives
 of Intel's hardware virtualization technology (VT) scheme, called VMX.
@@ -28,6 +31,19 @@ The VMX module may be enabled via the configuration option
 \optn{USE_VMX} in the \path{config.mk} file.
 
 \subsection{Design}
+\begin{figure*}[hbt]
+  \centering
+  \includegraphics{vm-design}  
+  \caption{System Design}
+\label{fig:design}
+\end{figure*}
+The current architecture of the planned system is shown in
+Figure~\ref{fig:design}.  The kernel-space is divided up into
+different compartments, enforced by virtual machine technology, of at
+least one per CPU and Local APIC.  The user-space is shared amongst
+the VMs.  The I/O APIC is programmed to distribute the IRQs from the
+hardware to the appropriate VM which contains the driver for that
+hardware.
 
 \section{Initialization}
 \subsection{Enabling VMX}
